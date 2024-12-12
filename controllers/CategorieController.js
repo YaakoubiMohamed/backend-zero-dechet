@@ -1,48 +1,77 @@
-const Categorie = require("../models/categorie");
+const Categorie = require('../models/categorie');
 
-const AjouterCategorie = (req, res) => {
-  // req : request: data envoyer par le client(l'admin)
-  // res :  response : retourner reponse de la requette envoyer par le client
-  try {
-    const categorie = Categorie.create(req.body);
-    res.status(201).json({ message: "Catégorie créé" });
-  } catch (error) {
-    // console.error(error);
-    res.status(500).json({ error: error.message });
-  }
-};
-
-const AfficherCategories = (req, res) => {
-  try {
-    const catgeories = Categorie.findAll();
-    res.status(200).json(catgeories);
-  } catch (error) {
-    // console.error(error);
-    res.status(500).json({ error: error.message });
-  }
-};
-const ModifierCategorie = (req, res) => {
+const createCategorie = async (req, res) => {
     try {
-      const categorie = Categorie.findByPk(req.params.id);
-      if (!categorie) {
-        return res.status(404).json({ message: "Categorie non trouve" });
-      }
-  
-      categorie.update(req.body);
+        const { nom, description } = req.body;
+        console.log(req.body);
+        const newCategory = await Categorie.create({ nom, description });
+        res.status(201).json(newCategory);
     } catch (err) {
-      res.status(500).json({ error: err.message });
+        res.status(500).json({ error: err.message });
     }
-  };
-  
-const SupprimerCategorie = (req, res) => {
-  try {
-    const categorie = Categorie.findByPk(req.params.id);
-    if (!categorie) {
-      return res.status(404).json({ message: "Categorie non trouve" });
-    }
+};
 
-    categorie.destroy();
-  } catch (err) {
+const getAllcategories = async (req, res) => {
+    try {
+        const categories = await Categorie.findAll();
+        res.status(200).json(categories);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+const getcategorieById = async (req, res) =>{
+  try{
+        const { id } = req.params;
+        const category = await Categorie.findByPk(id);
+        res.status(200).json(category);
+  } catch(err) {
     res.status(500).json({ error: err.message });
-  }
+}
+}
+
+const updateCategorie = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { nom, description } = req.body;
+        const category = await Categorie.findByPk(id);
+
+        if (!category) {
+            return res.status(404).json({ error: 'Category not found' });
+        }
+
+        category.nom = nom;
+        category.description = description;
+        await category.save();
+
+        res.status(200).json(category);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to update category' });
+    }
+};
+
+const deleteCategorie = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const category = await Categorie.findByPk(id);      
+
+        await category.destroy();
+
+        if (!category) {
+            return res.status(404).json({ error: 'Category not found' });
+        }
+
+
+        res.status(200).json({ message: 'Category deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to delete category' });
+    }
+};
+
+module.exports = {
+    createCategorie,
+    getAllcategories,
+    updateCategorie,
+    deleteCategorie,
+    getcategorieById
 };

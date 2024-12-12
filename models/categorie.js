@@ -1,4 +1,5 @@
 const { DataTypes } = require("sequelize");
+const {sequelize} = require('../config/db')
 
     const Categorie = sequelize.define('Categorie',{
         id:{
@@ -11,10 +12,14 @@ const { DataTypes } = require("sequelize");
             allowNull: false, // champ obligatoire
         },
         description:{
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false, // champ obligatoire
         },
        
-    })
+    },
+    {
+        timestamps:false
+    }
+)
 
 module.exports = Categorie
