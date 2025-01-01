@@ -10,17 +10,54 @@ const Client = sequelize.define('Client', {
     email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
+        validate: {
+            isEmail: true,
+            notEmpty: true
+        }
     },
-    password: {
+        password: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: true,
+                len: [6, 255]            
+            }
+    },
+    telephone: {
         type: DataTypes.STRING,
-        allowNull: false
+        validate: {
+            is: /^0[1-9][0-9]{8}$/        
+        }
     },
-    telephone: DataTypes.STRING,
-    nom: DataTypes.STRING,
-    prenom: DataTypes.STRING,
-    adresse: DataTypes.STRING,
-    photo: DataTypes.STRING
+    nom: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+            len: [3, 100]            
+        },
+    },
+    prenom: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+            len: [3, 100]            
+        },
+    },
+    adresse: {
+        type: DataTypes.STRING,
+        validate: {
+            len: [0, 255]            
+        },
+    },
+    photo: {
+        type: DataTypes.STRING,
+        validate: {
+            len: [0, 255]            
+        },
+    }
 });
 
 module.exports = Client;
