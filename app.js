@@ -29,12 +29,12 @@ const initializeApp = async () => {
 initializeApp();
 
 // Use routes
-app.use('/api/categories', categorieRoutes);
-app.use('/api/admins', adminRoutes);
-app.use('/api/clients', clientRoutes);
-app.use('/api/produits', produitRoutes);
-app.use('/api/messages', messageRoutes);
-app.use('/api/commandes', commandeRoutes);
+app.use('/api', categorieRoutes);
+app.use('/api', adminRoutes);
+app.use('/api', clientRoutes);
+app.use('/api', produitRoutes);
+app.use('/api', messageRoutes);
+app.use('/api', commandeRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;

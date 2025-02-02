@@ -50,10 +50,6 @@ const Produit = sequelize.define('Produit', {
             isIn: [['disponible', 'non disponible']]
         }
     },
-    idclient: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
     quantite: {
         type: DataTypes.INTEGER,
         validate: {
@@ -70,6 +66,5 @@ const Produit = sequelize.define('Produit', {
     },
     photo: DataTypes.STRING
 });
-
 
 module.exports = Produit;
